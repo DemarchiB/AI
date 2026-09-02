@@ -1,6 +1,6 @@
 # Guia de projeto — índice das convenções
 
-**Versão 2.0 — 2026-09-02.**
+**Versão 3.0 — 2026-09-02.**
 
 Este arquivo é o índice de um **conjunto** de documentos de convenção, adotado sem alteração por cada projeto. São duas formas equivalentes de adotá-lo, ambas montando o conjunto em `docs/guide/`: **cópia** do diretório, ou **submódulo** do repositório do conjunto. Os caminhos internos são relativos ao próprio conjunto, então os dois funcionam sem editar nada. O submódulo fixa a versão pelo commit; a cópia a declara em `AGENTS.md`, e em ambos os casos o projeto registra ali a versão adotada. A versão é única para o conjunto inteiro: quando qualquer arquivo dele evoluir, incremente aqui e propague o conjunto completo — versionar arquivo a arquivo cria combinações incompatíveis. Incremento maior quando uma regra muda de sentido, um caminho canônico muda ou a organização dos arquivos muda; menor quando algo é acrescentado sem invalidar o que já era seguido.
 
@@ -20,7 +20,7 @@ Leia este índice sempre; leia o resto sob demanda. Ler o conjunto inteiro nunca
 
 | Vou... | Leia |
 | --- | --- |
-| começar um projeto do zero | este arquivo (Seção 3) e os templates dos cinco obrigatórios |
+| começar um projeto do zero, ou adotar o conjunto num projeto existente | `adocao.md` e os templates dos cinco obrigatórios |
 | criar uma spec | `templates/spec.md` |
 | criar um ADR | `templates/adr.md` |
 | criar uma Skill ou um prompt de papel | `templates/skill.md`, `templates/prompt-bugfix.md`, `templates/prompt-review.md` |
@@ -55,11 +55,12 @@ AGENTS.md
 ARCHITECTURE.md
     ↓
 docs/
-    ├── index.md           (quando docs/ crescer; ver Seção 3)
+    ├── index.md           (quando docs/ crescer; ver adocao.md)
     ├── guide/             (o conjunto de convenções: cópia ou submódulo)
     │   ├── PROJECT_GUIDE.md   (este índice)
     │   ├── practices/     (um arquivo por domínio)
     │   ├── templates/     (um arquivo por documento)
+    │   ├── adocao.md     (como um projeto adota o conjunto)
     │   └── manutencao.md
     ├── specs/             (requisitos em EARS)
     ├── decisions/         (ADRs)
@@ -77,13 +78,13 @@ docs/
 código, testes e configurações
 ```
 
-A hierarquia representa navegação e nível de detalhe — **não é ordem de criação nem precedência sobre o código executável**. A ordem em que os documentos nascem está na Seção 3. As pastas só existem quando têm conteúdo real.
+A hierarquia representa navegação e nível de detalhe — **não é ordem de criação nem precedência sobre o código executável**. A ordem em que os documentos nascem está em `adocao.md`. As pastas só existem quando têm conteúdo real.
 
 | Local | Papel | Template |
 | --- | --- | --- |
 | `README.md` | Apresentação do projeto para pessoas e ferramentas. | `templates/readme.md` |
-| `AGENTS.md` | Índice operacional curto (~100 linhas), carregado em toda sessão. | `templates/agents.md` |
-| `ARCHITECTURE.md` | Mapa arquitetural de alto nível: domínios, limites, fluxos. | `templates/architecture.md` |
+| `AGENTS.md` | Índice operacional curto (~100 linhas), carregado em toda sessão. Pode ser aninhado: `<subárvore>/AGENTS.md` para uma pasta com regras próprias. | `templates/agents.md` |
+| `ARCHITECTURE.md` | Mapa arquitetural de alto nível: domínios, limites, fluxos. **Único no projeto** — nunca aninhado. | `templates/architecture.md` |
 | `docs/index.md` | Índice do que existe em `docs/`. | `templates/docs-index.md` |
 | `docs/workflow.md` | Como a revisão acontece neste projeto. | `templates/workflow.md` |
 | `docs/specs/` | Requisitos em EARS, antes de codar. | `templates/spec.md` |
@@ -97,8 +98,8 @@ A hierarquia representa navegação e nível de detalhe — **não é ordem de c
 
 ## 2. Onde registrar uma informação
 
-1. É necessário para qualquer primeira contribuição? Resumo ou link em `AGENTS.md`.
-2. Explica limites e componentes de alto nível? `ARCHITECTURE.md`.
+1. É necessário para qualquer primeira contribuição? Resumo ou link em `AGENTS.md`. Se vale **só dentro de uma subárvore** — uma pasta de documentação, um componente, uma área com convenção própria —, um `AGENTS.md` aninhado nela: o raiz aponta, o aninhado detalha, e o detalhe só é carregado quando a tarefa toca aquela pasta. `AGENTS.md` é operacional e local por natureza, e aninhar é o que dá economia de contexto sem perder informação.
+2. Explica limites e componentes de alto nível? `ARCHITECTURE.md`, sempre o **único** do projeto. Ele é relacional por natureza: o que ele tem de mais valioso é descrever o que existe **entre** as partes, e um por pasta faz cada arquivo descrever bem o seu pedaço enquanto ninguém descreve as interfaces. Detalhe que não cabe no mapa vira design-doc ou referência, com o mapa apontando para lá — nunca um segundo `ARCHITECTURE.md`.
 3. É um requisito ou comportamento esperado ainda não implementado? `docs/specs/`.
 4. É comportamento já implementado e consolidado, que descreve o produto como ele é? `docs/product-specs/`. O critério: `docs/specs/` é entrada de trabalho, encerrada quando a implementação conclui; `docs/product-specs/` é descrição vigente, mantida enquanto o comportamento existir. Sem necessidade real dessa distinção, use apenas `docs/specs/`.
 5. É uma decisão de arquitetura que outros vão consultar antes de mudar algo relacionado? `docs/decisions/`.
@@ -115,27 +116,8 @@ A hierarquia representa navegação e nível de detalhe — **não é ordem de c
 
 Se nenhuma opção tiver conteúdo suficiente, não crie um novo arquivo.
 
-## 3. Por onde começar
 
-**Conjunto mínimo.** Um projeto começa com cinco arquivos, e só eles são obrigatórios desde o primeiro dia: `README.md`, `ARCHITECTURE.md`, `docs/workflow.md`, `AGENTS.md` e este conjunto em `docs/guide/`. Todo o resto nasce quando houver conteúdo real: a primeira spec, com a primeira funcionalidade não trivial; o primeiro ADR, com a primeira decisão que atenda aos critérios de `templates/adr.md`; `docs/index.md`, quando `docs/` passar a ter mais do que o guia e o workflow; um prompt de papel, quando o papel se repetir; uma Skill, quando o workflow justificar. Criar qualquer um antes disso é o antipadrão da árvore preenchida.
-
-**Projeto novo — ordem de criação.** A ordem existe para que cada documento cite os anteriores sem referência quebrada e sem afirmar o que ainda não foi decidido:
-
-1. este conjunto em `docs/guide/`, copiado ou adicionado como submódulo — antes de qualquer documento, porque define o formato dos demais;
-2. `ARCHITECTURE.md` — mesmo esquelético; dá vocabulário a tudo que vem depois. O que não estiver decidido vai em "Pontos não determinados", não em suposição. Descrever estrutura que ainda não existe é legítimo desde que rotulada como planejada;
-3. `docs/workflow.md` — VCS, remoto, branch principal e branches de integração;
-4. `AGENTS.md` — por último entre os obrigatórios: índice só se escreve bem sobre o que já existe. É onde a versão adotada fica registrada;
-5. `README.md` — a apresentação para pessoas.
-
-Nessa ordem, toda referência entre documentos aponta para trás. Se um documento novo precisar citar outro que ainda não existe, ou a ordem está errada, ou a citação é desnecessária.
-
-**Projeto existente — adoção incremental.** Não pare o trabalho para documentar tudo: documentação retroativa em massa produz fato não sustentado por evidência. Adote o conjunto; escreva o `AGENTS.md` com o que já é verificável hoje; levante o `ARCHITECTURE.md` a partir das fontes de evidência (`manutencao.md`), marcando o que o código não comprovar; registre como ADR apenas decisões que ainda governam o código e que alguém questionaria; daí em diante, cada tarefa que tocar uma área documenta aquela área. A cobertura cresce pelo uso, não por mutirão.
-
-**Estado provisório.** Nenhum documento fica bloqueado por falta de fato confirmado, e nenhum buraco é preenchido por suposição. Um fato que ainda não existe ou não foi verificado é declarado na própria linha: `<a definir>` quando não há escolha feita, `<a verificar: motivo>` quando há expectativa razoável ainda não confirmada. Comando que ninguém rodou entra como `<a verificar>`, nunca como oficial. Num repositório sem código, é normal que a tabela inteira de comandos esteja marcada — documento obrigatório com campos declaradamente pendentes é o estado correto do dia zero. A marcação é temporária: sai na mesma mudança que confirma o fato.
-
-**Seção sem conteúdo ainda.** Um template lista as seções que o documento pode ter. Seção cujo conteúdo ainda não existe — Skills e prompts de papel no dia zero, por exemplo — mantém o título e recebe uma linha explícita ("Nenhuma até o momento"), para que a ausência seja um fato declarado e o lugar continue visível quando o conteúdo surgir. A exceção é a linha que aponta para um documento inexistente: essa sai do arquivo, porque link quebrado não é informação.
-
-## 4. Domínios de prática
+## 3. Domínios de prática
 
 Cada domínio é um arquivo em `practices/`, com o mesmo estatuto — nenhum é privilegiado por vir antes. Existem hoje:
 
@@ -168,13 +150,15 @@ Só o que sobrevive aos três é domínio.
 
 **Orçamento de contexto.** Meça com `wc -m`, não em linhas: linha longa e linha curta pesam diferente, e um arquivo pode estar folgado no limite de linhas pesando o dobro de outro que parece maior.
 
-- **Este índice: teto firme de ~18.000 caracteres.** Ele é lido em toda tarefa, então cada caractere aqui é pago em todas elas. Estourou, alguma coisa sai — normalmente para um domínio ou para `manutencao.md`.
+- **Este índice: teto firme de ~18.000 caracteres.** Ele é lido em toda tarefa, então cada caractere aqui é pago em todas elas. Estourou, alguma coisa sai — e para onde, decide a regra de destino abaixo.
 - **Cada domínio: ~15.000 caracteres como gatilho de revisão**, não como tesoura. Domínios são carregados sob demanda, um ou dois por tarefa; o número não manda cortar texto, manda parar e decidir. As respostas legítimas são três: o domínio virou dois; parte dele é fato específico de projeto e vai para os documentos do projeto; ou há regra duplicada de outro domínio para eliminar. Encolher a prosa até a regra parar de se explicar não é uma delas.
 - **Templates não têm teto** — são lidos um por vez, e só por quem vai criar aquele documento.
 
+**O destino se escolhe pelo assunto, nunca pelo espaço livre.** Empurrar um trecho para o arquivo que tem folga é o jeito mais fácil de caber no orçamento e o jeito mais rápido de tornar o conjunto ilegível: quem procura o assunto não vai olhar ali. Se o trecho não pertence a nenhum arquivo existente, ele **vira arquivo próprio** — o conjunto admite documentos procedurais novos ao lado de `adocao.md` e `manutencao.md`, e um arquivo a mais lido sob demanda custa menos que um parágrafo no lugar errado. Arquivo novo assim entra na árvore da Seção 1 e na tabela "Como usar".
+
 **O que nunca é cortado para caber:** o motivo de uma regra. Regra sem o porquê é contornada na primeira vez que incomoda, e isso custa mais do que os caracteres economizados. Corte duplicação, exemplo redundante e adjetivo — nunca a justificativa.
 
-## 5. Ao encerrar qualquer mudança
+## 4. Ao encerrar qualquer mudança
 
 - [ ] O conteúdo corresponde ao código e às configurações atuais.
 - [ ] Comandos, caminhos e nomes citados existem ou estão marcados como provisórios.

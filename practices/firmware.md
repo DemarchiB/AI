@@ -76,7 +76,7 @@ Cobre como o firmware é estruturado e como ele se comporta no tempo: separaçã
 
 Enquanto o projeto não adotar uma norma, este guia permanece agnóstico a ela: nenhuma das regras abaixo depende de norma específica, e todas reduzem o custo de adotar uma depois.
 
-1. **Rastreabilidade auditável desde já**, no sentido da Seção 4 do índice: identificador do requisito presente na spec, no commit, no teste e no registro de validação. A ponta que fecha essa cadeia é a identificação de build ([c-embarcado.md](c-embarcado.md), Seção 1): sem saber qual binário está no produto, nenhuma evidência anterior se liga ao equipamento em campo.
+1. **Rastreabilidade auditável desde já**, no sentido da Seção 3 do índice: identificador do requisito presente na spec, no commit, no teste e no registro de validação. A ponta que fecha essa cadeia é a identificação de build ([c-embarcado.md](c-embarcado.md), Seção 1): sem saber qual binário está no produto, nenhuma evidência anterior se liga ao equipamento em campo.
 2. **Estado seguro definido e verificável** (Seção 6) é a peça que toda norma vai exigir e que nenhum projeto consegue reconstruir depois.
 3. **Determinismo antes de conformidade**: sem alocação dinâmica, sem recursão, pilha orçada, prazos declarados ([c-embarcado.md](c-embarcado.md), Seção 3).
 4. **Modos de falha listados por função crítica** — o que pode falhar, como é detectado, o que acontece então. Uma tabela curta por função vale mais do que a norma inteira lida sem aplicação.

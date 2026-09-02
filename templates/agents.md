@@ -4,6 +4,10 @@
 
 **Papel:** índice operacional curto, carregado em toda sessão de agente. Alvo de ~100 linhas. Detalhe extenso vive em `ARCHITECTURE.md`, em `docs/`, nas Skills, no código ou nas configurações — aqui fica o resumo e o ponteiro.
 
+**Aninhamento.** O `AGENTS.md` da raiz é carregado em toda sessão e deve continuar curto. Uma subárvore com convenções próprias — uma pasta de documentação, um componente, uma área com ferramental diferente — pode ter o seu próprio `AGENTS.md`, com o mesmo formato deste template reduzido ao que vale ali. A divisão de trabalho é: o raiz descreve o repositório inteiro em uma tabela e **aponta** para os aninhados; o aninhado descreve só a sua pasta e nunca repete regra do raiz. Assim o detalhe caro só é carregado quando a tarefa toca aquela pasta. Duas ressalvas: confirme que o seu harness carrega arquivos aninhados sob demanda — se não carregar, o raiz precisa dizer explicitamente qual arquivo ler para cada área; e o aninhamento vale para o `AGENTS.md`, nunca para o `ARCHITECTURE.md`, que é único no projeto por descrever o que existe entre as partes.
+
+**Pastas que o agente não deve abrir** — saídas de build, artefatos gerados, binários arquivados — se resolvem primeiro no `.gitignore` e no arquivo de exclusão do harness, quando houver. Listá-las aqui é o último recurso, não o primeiro: documentar "não leia isto" gasta contexto para evitar contexto.
+
 **Convenções:** somente comandos verificados; comando inferido entra com marcação de estado provisório, nunca como oficial. É neste arquivo que fica registrada a versão adotada do conjunto de convenções.
 
 ```markdown
@@ -67,7 +71,7 @@ principal. Uma contribuição está completa quando o comportamento novo tem
 spec, teste passando e nenhum aumento de uso de RAM no módulo.
 
 ## Convenções adotadas
-Este projeto segue [docs/guide/PROJECT_GUIDE.md](docs/guide/PROJECT_GUIDE.md), **versão 2.0**.
+Este projeto segue [docs/guide/PROJECT_GUIDE.md](docs/guide/PROJECT_GUIDE.md), **versão 3.0**.
 
 ## Mapa do repositório
 | Caminho | Conteúdo |
