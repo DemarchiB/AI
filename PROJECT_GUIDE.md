@@ -1,6 +1,6 @@
 # Guia de projeto — índice das convenções
 
-**Versão 3.5 — 2026-09-02.**
+**Versão 1.0 — 2026-09-02.**
 
 Este arquivo é o índice de um **conjunto** de documentos de convenção, copiado sem alteração para cada projeto que o adota. O projeto registra em `AGENTS.md` a versão adotada. A versão é única para o conjunto inteiro: quando qualquer arquivo dele evoluir, incremente aqui e propague a cópia completa — versionar arquivo a arquivo cria combinações incompatíveis. Incremento maior quando uma regra muda de sentido, um caminho canônico muda ou a organização dos arquivos muda; menor quando algo é acrescentado sem invalidar o que já era seguido.
 
