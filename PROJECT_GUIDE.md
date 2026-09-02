@@ -1,6 +1,6 @@
 # Guia de projeto — índice das convenções
 
-**Versão 3.4 — 2026-09-02.**
+**Versão 3.5 — 2026-09-02.**
 
 Este arquivo é o índice de um **conjunto** de documentos de convenção, copiado sem alteração para cada projeto que o adota. O projeto registra em `AGENTS.md` a versão adotada. A versão é única para o conjunto inteiro: quando qualquer arquivo dele evoluir, incremente aqui e propague a cópia completa — versionar arquivo a arquivo cria combinações incompatíveis. Incremento maior quando uma regra muda de sentido, um caminho canônico muda ou a organização dos arquivos muda; menor quando algo é acrescentado sem invalidar o que já era seguido.
 
@@ -166,7 +166,13 @@ Só o que sobrevive aos três é domínio.
 6. **Não crie o arquivo vazio.** Domínio só nasce quando há regras reais a escrever.
 7. **Incremente a versão** do conjunto no topo deste arquivo.
 
-**Orçamento de contexto.** Este índice é lido em toda tarefa: mantenha-o abaixo de ~200 linhas. Cada domínio deve caber em ~150 linhas; domínio que crescer além disso provavelmente virou dois. Templates podem crescer à vontade — são carregados um por vez.
+**Orçamento de contexto.** Meça com `wc -m`, não em linhas: linha longa e linha curta pesam diferente, e um arquivo pode estar folgado no limite de linhas pesando o dobro de outro que parece maior.
+
+- **Este índice: teto firme de ~18.000 caracteres.** Ele é lido em toda tarefa, então cada caractere aqui é pago em todas elas. Estourou, alguma coisa sai — normalmente para um domínio ou para `manutencao.md`.
+- **Cada domínio: ~15.000 caracteres como gatilho de revisão**, não como tesoura. Domínios são carregados sob demanda, um ou dois por tarefa; o número não manda cortar texto, manda parar e decidir. As respostas legítimas são três: o domínio virou dois; parte dele é fato específico de projeto e vai para os documentos do projeto; ou há regra duplicada de outro domínio para eliminar. Encolher a prosa até a regra parar de se explicar não é uma delas.
+- **Templates não têm teto** — são lidos um por vez, e só por quem vai criar aquele documento.
+
+**O que nunca é cortado para caber:** o motivo de uma regra. Regra sem o porquê é contornada na primeira vez que incomoda, e isso custa mais do que os caracteres economizados. Corte duplicação, exemplo redundante e adjetivo — nunca a justificativa.
 
 ## 5. Ao encerrar qualquer mudança
 
