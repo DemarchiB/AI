@@ -1,6 +1,6 @@
 # Guia de projeto — índice das convenções
 
-**Versão 3.0 — 2026-09-02.**
+**Versão 3.3 — 2026-09-02.**
 
 Este arquivo é o índice de um **conjunto** de documentos de convenção, copiado sem alteração para cada projeto que o adota. O projeto registra em `AGENTS.md` a versão adotada. A versão é única para o conjunto inteiro: quando qualquer arquivo dele evoluir, incremente aqui e propague a cópia completa — versionar arquivo a arquivo cria combinações incompatíveis. Incremento maior quando uma regra muda de sentido, um caminho canônico muda ou a organização dos arquivos muda; menor quando algo é acrescentado sem invalidar o que já era seguido.
 
@@ -26,6 +26,9 @@ Leia este índice sempre; leia o resto sob demanda. Ler o conjunto inteiro nunca
 | criar uma Skill ou um prompt de papel | `guide/templates/skill.md`, `guide/templates/prompt-bugfix.md`, `guide/templates/prompt-review.md` |
 | documentar uma dependência | `guide/templates/referencia.md` |
 | escrever o `docs/workflow.md` | `guide/templates/workflow.md` e `guide/practices/engenharia.md` |
+| escrever ou revisar código C de firmware | `guide/practices/c-embarcado.md` |
+| definir a estrutura de um firmware, mexer em interrupção ou RTOS | `guide/practices/firmware.md` |
+| criar ou alterar uma máquina de estado | `guide/practices/firmware.md` e `guide/templates/fsm.md` |
 | iniciar, revisar ou integrar uma mudança | `guide/practices/engenharia.md` |
 | delegar trabalho a um agente, ou definir o que ele pode executar | `guide/practices/ia.md` |
 | criar, mover ou remover documentos; documentar a partir de evidência | `guide/manutencao.md` |
@@ -87,6 +90,7 @@ A hierarquia representa navegação e nível de detalhe — **não é ordem de c
 | `docs/references/` | Conhecimento de apoio sobre dependências externas. | `guide/templates/referencia.md` |
 | `.agents/skills/` | Workflows especializados e reutilizáveis. Caminho canônico de Skills. | `guide/templates/skill.md` |
 | `.agents/prompts/` | Prompts por papel que complementam o harness global. | `guide/templates/prompt-bugfix.md`, `prompt-review.md` |
+| `docs/design-docs/fsm-*.md` | Documentação de uma máquina de estado: estados, eventos, tabela de transição. | `guide/templates/fsm.md` |
 | `docs/design-docs/`, `docs/exec-plans/`, `docs/product-specs/`, `docs/generated/` | Áreas documentais descritas em `guide/manutencao.md`. | — |
 
 ## 2. Onde registrar uma informação
@@ -98,7 +102,7 @@ A hierarquia representa navegação e nível de detalhe — **não é ordem de c
 5. É uma decisão de arquitetura que outros vão consultar antes de mudar algo relacionado? `docs/decisions/`.
 6. É um workflow especializado e reutilizável? Considere uma Skill em `.agents/skills/`.
 7. É orientação de papel para um sub-agente? `.agents/prompts/`.
-8. É decisão ou design informal, sem a rigidez de um ADR? `docs/design-docs/`.
+8. É decisão ou design informal, sem a rigidez de um ADR? `docs/design-docs/`. O comportamento de uma máquina de estado entra aqui, a partir de `guide/templates/fsm.md`.
 9. Planeja trabalho relevante ainda não concluído? `docs/exec-plans/active/`.
 10. É produzido por automação? `docs/generated/`, se precisar ser versionado.
 11. Explica uma dependência externa no contexto do projeto? `docs/references/`.
@@ -137,8 +141,18 @@ Cada domínio é um arquivo em `guide/practices/`, com o mesmo estatuto — nenh
 | --- | --- | --- |
 | Engenharia e qualidade | Branching e revisão, commit, sensores, segredos, testes, dependências. | `guide/practices/engenharia.md` |
 | Trabalho com agentes de IA | Harness, prompts de papel, limites de execução, conteúdo não confiável. | `guide/practices/ia.md` |
+| C em alvo embarcado | Toolchain e build, identificação de versão, tipos, memória, nomes e contratos, defensividade, adoção de MISRA, análise estática. | `guide/practices/c-embarcado.md` |
+| Arquitetura de firmware embarcado | Camadas, máquinas de estado, interrupções, RTOS, tempo, watchdog, estado seguro, dados externos e atualização, preparação para safety. | `guide/practices/firmware.md` |
 
 **Formato de um domínio:** propósito em 2–3 linhas dizendo o que cobre e o que fica de fora; regras em lista numerada, cada uma acionável e verificável; um checklist próprio ao final.
+
+**Antes de criar um domínio, descarte três alternativas.** Domínio nasce de repetição observada, não de lacuna percebida — lista de tópicos que faltam é o antipadrão da árvore preenchida aplicado a este conjunto. Verifique nesta ordem:
+
+- **É reformulação de regras que já existem em outro domínio, na voz de quem executa uma tarefa específica?** Então é prompt de papel em `.agents/prompts/`, ou seção do `docs/workflow.md` do projeto — e ele **aponta** para os domínios em vez de repetir suas regras. Duas cópias da mesma regra divergem, e a partir daí ninguém sabe qual vale.
+- **Depende do produto, da linguagem, da ferramenta ou da norma adotada por um projeto?** Então é documento daquele projeto, não deste conjunto.
+- **Ainda não foi praticado em nenhum projeto real?** Então espere. Convenção escrita antes do primeiro uso é palpite com aparência de norma, e vira o arquivo que todos contornam. Um projeto só mostra uma solução; o que é geral só fica visível no segundo.
+
+Só o que sobrevive aos três é domínio.
 
 **Para adicionar um domínio novo** (programação numa linguagem, safety, segurança de produto, performance):
 
