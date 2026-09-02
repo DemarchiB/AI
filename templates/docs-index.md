@@ -9,7 +9,7 @@
 
 | Documento | Conteúdo | Quando consultar |
 | --- | --- | --- |
-| [PROJECT_GUIDE.md](PROJECT_GUIDE.md) | Convenções documentais e índice do conjunto. | Ao criar ou mover qualquer documento. |
+| [guide/PROJECT_GUIDE.md](guide/PROJECT_GUIDE.md) | Convenções documentais e índice do conjunto. | Ao criar ou mover qualquer documento. |
 | [workflow.md](workflow.md) | Branching, revisão, commit e merge. | Antes de iniciar uma tarefa. |
 | [specs/](specs/) | Requisitos em EARS. | Antes de implementar comportamento novo. |
 | [decisions/](decisions/) | ADRs. | Antes de mudar algo que uma decisão já cobre. |

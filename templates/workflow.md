@@ -2,7 +2,7 @@
 
 **Quando usar:** no dia zero, antes do `AGENTS.md`, que vai apontar para ele.
 
-**Papel:** instanciar as regras de revisão do domínio de engenharia com o que é específico deste projeto — VCS em uso, remoto, nomes reais da branch principal e das branches de integração, e se a plataforma de PR/MR já é usada hoje. As regras em si estão em `guide/practices/engenharia.md` e não mudam; este arquivo diz como elas se realizam aqui.
+**Papel:** instanciar as regras de revisão do domínio de engenharia com o que é específico deste projeto — VCS em uso, remoto, nomes reais da branch principal e das branches de integração, e se a plataforma de PR/MR já é usada hoje. As regras em si estão em `../practices/engenharia.md` e não mudam; este arquivo diz como elas se realizam aqui.
 
 **Convenções:** os comandos abaixo estão na notação do Git; projeto em outro VCS os substitui pelos equivalentes. VCS ou remoto ainda não escolhidos entram como `<a definir>`, e o documento descreve o Cenário 1 sem citar comando concreto até a escolha existir.
 

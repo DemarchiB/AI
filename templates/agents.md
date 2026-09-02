@@ -13,7 +13,7 @@
 <2-3 linhas: o que o projeto faz e qual o resultado esperado de uma contribuição.>
 
 ## Convenções adotadas
-Este projeto segue [docs/PROJECT_GUIDE.md](docs/PROJECT_GUIDE.md), **versão <X.Y>**.
+Este projeto segue [docs/guide/PROJECT_GUIDE.md](docs/guide/PROJECT_GUIDE.md), **versão <X.Y>**.
 
 ## Mapa do repositório
 | Caminho | Conteúdo |
@@ -67,7 +67,7 @@ principal. Uma contribuição está completa quando o comportamento novo tem
 spec, teste passando e nenhum aumento de uso de RAM no módulo.
 
 ## Convenções adotadas
-Este projeto segue [docs/PROJECT_GUIDE.md](docs/PROJECT_GUIDE.md), **versão 3.0**.
+Este projeto segue [docs/guide/PROJECT_GUIDE.md](docs/guide/PROJECT_GUIDE.md), **versão 2.0**.
 
 ## Mapa do repositório
 | Caminho | Conteúdo |

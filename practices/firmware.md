@@ -22,7 +22,7 @@ Cobre como o firmware é estruturado e como ele se comporta no tempo: separaçã
 6. **Todo par estado × evento tem destino definido**, inclusive os que não fazem nada — e "não faz nada" é uma decisão registrada, não uma lacuna.
 7. **A máquina tem estado de erro ou seguro alcançável**, e a saída dele é explícita (reinicialização, intervenção, reset). Máquina sem estado de falha esconde a falha.
 8. **Ação de entrada e de saída são explícitas** quando existirem, e a máquina não bloqueia: espera é um estado com temporizador, nunca um laço de espera dentro da transição.
-9. **Toda máquina de estado não trivial é documentada** a partir de `guide/templates/fsm.md`, no diretório de documentação do projeto. A documentação e o código mudam na mesma alteração.
+9. **Toda máquina de estado não trivial é documentada** a partir de `../templates/fsm.md`, no diretório de documentação do projeto. A documentação e o código mudam na mesma alteração.
 
 ## 3. Interrupções
 
@@ -87,7 +87,7 @@ Enquanto o projeto não adotar uma norma, este guia permanece agnóstico a ela: 
 
 - [ ] A lógica de aplicação continua compilável sem a toolchain do alvo.
 - [ ] Comportamento com modos está numa máquina de estado explícita, com dono único e estado de falha alcançável.
-- [ ] Máquina de estado nova ou alterada está documentada a partir de `guide/templates/fsm.md`.
+- [ ] Máquina de estado nova ou alterada está documentada a partir de `../templates/fsm.md`.
 - [ ] Rotinas de interrupção são curtas, não bloqueiam, e todo dado compartilhado tem proteção declarada.
 - [ ] Toda espera tem tempo limite; nenhum atraso foi usado como sincronização.
 - [ ] Comparação de tempo é por diferença, tolerante a estouro do contador.

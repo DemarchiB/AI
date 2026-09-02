@@ -78,7 +78,7 @@ Atualize documentação na mesma mudança quando houver alteração em propósit
 
 - [ ] `AGENTS.md` continua curto, funciona como índice e registra a versão adotada do conjunto.
 - [ ] `ARCHITECTURE.md` permanece de alto nível.
-- [ ] Documentos criados partiram do template correspondente em `guide/templates/`.
+- [ ] Documentos criados partiram do template correspondente em `templates/`.
 - [ ] Não existe arquivo `TEMPLATE.md` (ou equivalente) duplicando um template do conjunto.
 - [ ] Skills possuem nome, diretório e frontmatter válidos.
 - [ ] Specs seguem a notação EARS, têm `Status` e critérios de aceite verificáveis.

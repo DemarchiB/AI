@@ -39,7 +39,7 @@ Os comandos e flags citados aparecem na notação do GCC e do CMake por serem as
 
 ## 4. Estrutura, nomes e interface
 
-1. **Um módulo = um `.c` + um `.h`**, com uma responsabilidade declarada no topo do header. Módulo com estado — que tem ou pode vir a ter mais de uma instância — parte de `guide/templates/modulo-c.md`.
+1. **Um módulo = um `.c` + um `.h`**, com uma responsabilidade declarada no topo do header. Módulo com estado — que tem ou pode vir a ter mais de uma instância — parte de `../templates/modulo-c.md`.
 2. **Todo símbolo público leva o prefixo do módulo** (`motor_iniciar`, `motor_parar`, `MOTOR_ESTADO_PARADO`). C não tem espaço de nomes: o prefixo é o que evita colisão no link, torna o módulo de origem visível na revisão e permite localizar todos os usos por busca textual.
 3. **A unidade faz parte do nome** sempre que a grandeza tiver uma: `timeout_ms`, `corrente_ma`, `tensao_mv`, `angulo_decigrau`. Elimina uma classe inteira de defeito que nenhum analisador estático detecta, e custa nada.
 4. **Identificador reservado não se usa.** Nome começando com sublinhado duplo, ou com sublinhado seguido de maiúscula, é reservado para a implementação em qualquer escopo — inclusive guarda de inclusão, onde o erro é mais comum. `__MODULO__` é comportamento indefinido; a forma correta é `MODULO_H`.
