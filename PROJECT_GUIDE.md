@@ -1,6 +1,6 @@
 # Guia de projeto — índice das convenções
 
-**Versão 3.3 — 2026-09-02.**
+**Versão 3.4 — 2026-09-02.**
 
 Este arquivo é o índice de um **conjunto** de documentos de convenção, copiado sem alteração para cada projeto que o adota. O projeto registra em `AGENTS.md` a versão adotada. A versão é única para o conjunto inteiro: quando qualquer arquivo dele evoluir, incremente aqui e propague a cópia completa — versionar arquivo a arquivo cria combinações incompatíveis. Incremento maior quando uma regra muda de sentido, um caminho canônico muda ou a organização dos arquivos muda; menor quando algo é acrescentado sem invalidar o que já era seguido.
 
@@ -29,6 +29,7 @@ Leia este índice sempre; leia o resto sob demanda. Ler o conjunto inteiro nunca
 | escrever ou revisar código C de firmware | `guide/practices/c-embarcado.md` |
 | definir a estrutura de um firmware, mexer em interrupção ou RTOS | `guide/practices/firmware.md` |
 | criar ou alterar uma máquina de estado | `guide/practices/firmware.md` e `guide/templates/fsm.md` |
+| criar um módulo novo em C | `guide/templates/modulo-c.md` |
 | iniciar, revisar ou integrar uma mudança | `guide/practices/engenharia.md` |
 | delegar trabalho a um agente, ou definir o que ele pode executar | `guide/practices/ia.md` |
 | criar, mover ou remover documentos; documentar a partir de evidência | `guide/manutencao.md` |
@@ -91,6 +92,7 @@ A hierarquia representa navegação e nível de detalhe — **não é ordem de c
 | `.agents/skills/` | Workflows especializados e reutilizáveis. Caminho canônico de Skills. | `guide/templates/skill.md` |
 | `.agents/prompts/` | Prompts por papel que complementam o harness global. | `guide/templates/prompt-bugfix.md`, `prompt-review.md` |
 | `docs/design-docs/fsm-*.md` | Documentação de uma máquina de estado: estados, eventos, tabela de transição. | `guide/templates/fsm.md` |
+| `<modulo>.h` + `<modulo>.c` | Módulo com estado em C: atributos, construtor, operações com prefixo. | `guide/templates/modulo-c.md` |
 | `docs/design-docs/`, `docs/exec-plans/`, `docs/product-specs/`, `docs/generated/` | Áreas documentais descritas em `guide/manutencao.md`. | — |
 
 ## 2. Onde registrar uma informação
@@ -107,7 +109,7 @@ A hierarquia representa navegação e nível de detalhe — **não é ordem de c
 10. É produzido por automação? `docs/generated/`, se precisar ser versionado.
 11. Explica uma dependência externa no contexto do projeto? `docs/references/`.
 12. É detalhe de implementação local e permanece claro no código? Mantenha no código.
-13. É o **formato** de um documento? `guide/templates/` — nunca um `TEMPLATE.md` solto no projeto.
+13. É o **formato** de um documento, ou o esqueleto de um arquivo de código recorrente? `guide/templates/` — nunca um `TEMPLATE.md` nem um `Template.c` solto no projeto.
 14. É uma **prática geral** de um domínio, válida para qualquer projeto? `guide/practices/`.
 15. É uma convenção **específica deste projeto**? `AGENTS.md`, `ARCHITECTURE.md` ou `docs/workflow.md`.
 

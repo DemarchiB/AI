@@ -39,17 +39,18 @@ Os comandos e flags citados aparecem na notação do GCC e do CMake por serem as
 
 ## 4. Estrutura, nomes e interface
 
-1. **Um módulo = um `.c` + um `.h`**, com uma responsabilidade declarada no topo do header.
+1. **Um módulo = um `.c` + um `.h`**, com uma responsabilidade declarada no topo do header. Módulo com estado — que tem ou pode vir a ter mais de uma instância — parte de `guide/templates/modulo-c.md`.
 2. **Todo símbolo público leva o prefixo do módulo** (`motor_iniciar`, `motor_parar`, `MOTOR_ESTADO_PARADO`). C não tem espaço de nomes: o prefixo é o que evita colisão no link, torna o módulo de origem visível na revisão e permite localizar todos os usos por busca textual.
 3. **A unidade faz parte do nome** sempre que a grandeza tiver uma: `timeout_ms`, `corrente_ma`, `tensao_mv`, `angulo_decigrau`. Elimina uma classe inteira de defeito que nenhum analisador estático detecta, e custa nada.
-4. **O header expõe a interface, nunca a implementação**: sem definição de variável, sem corpo de função não `inline`, sem `#include` que só a implementação precisa. Guarda de inclusão em todo header.
-5. **Cada função pública tem contrato declarado no header**: o que ela faz, pré-condições, faixa válida de cada parâmetro com a unidade, e o significado de cada valor de retorno de erro. É o contrato que torna verificável, na revisão, a regra de validação da Seção 5 — e é o material que uma norma de safety vai exigir depois, escrito no momento em que custa pouco.
-6. **Sem número mágico.** Valor com significado é `const`, `enum` ou máscara nomeada; registrador é acessado por campos e máscaras com nome, não por literal hexadecimal no meio da expressão.
-7. **Função tem uma responsabilidade e cabe na tela.** Função que precisa de comentário de seção interna normalmente são duas funções.
-8. **Toda função tem protótipo** e o parâmetro vazio se escreve `(void)`.
-9. **Macro só onde função não serve.** Constante é `const` ou `enum`; cálculo é função (`static inline` quando o custo importar). Macro que sobrar é parametrizada com parênteses em cada uso do argumento e sem efeito colateral no argumento.
-10. **Sem `goto`**, com a exceção conhecida do salto único para um bloco de limpeza ao final da própria função.
-11. **Código morto não fica no repositório.** Alternativa antiga vive no histórico do VCS, não comentada no arquivo nem sob `#if 0`.
+4. **Identificador reservado não se usa.** Nome começando com sublinhado duplo, ou com sublinhado seguido de maiúscula, é reservado para a implementação em qualquer escopo — inclusive guarda de inclusão, onde o erro é mais comum. `__MODULO__` é comportamento indefinido; a forma correta é `MODULO_H`.
+5. **O header expõe a interface, nunca a implementação**: sem definição de variável, sem corpo de função não `inline`, sem `#include` que só a implementação precisa. Guarda de inclusão em todo header.
+6. **Cada função pública tem contrato declarado no header**: o que ela faz, pré-condições, faixa válida de cada parâmetro com a unidade, e o significado de cada valor de retorno de erro. É o contrato que torna verificável, na revisão, a regra de validação da Seção 5 — e é o material que uma norma de safety vai exigir depois, escrito no momento em que custa pouco.
+7. **Sem número mágico.** Valor com significado é `const`, `enum` ou máscara nomeada; registrador é acessado por campos e máscaras com nome, não por literal hexadecimal no meio da expressão.
+8. **Função tem uma responsabilidade e cabe na tela.** Função que precisa de comentário de seção interna normalmente são duas funções.
+9. **Toda função tem protótipo** e o parâmetro vazio se escreve `(void)`.
+10. **Macro só onde função não serve.** Constante é `const` ou `enum`; cálculo é função (`static inline` quando o custo importar). Macro que sobrar é parametrizada com parênteses em cada uso do argumento e sem efeito colateral no argumento.
+11. **Sem `goto`**, com a exceção conhecida do salto único para um bloco de limpeza ao final da própria função.
+12. **Código morto não fica no repositório.** Alternativa antiga vive no histórico do VCS, não comentada no arquivo nem sob `#if 0`.
 
 ## 5. Defensividade e comportamento indefinido
 
