@@ -2,7 +2,9 @@
 
 **Quando criar uma Skill:** somente quando houver um workflow especializado, recorrente, relevante para o projeto, difícil de executar corretamente sem instruções, e estável o bastante para ser reutilizado. Não crie Skills genéricas para linguagem, VCS ou ferramentas comuns sem uma necessidade específica do projeto.
 
-**Caminho canônico:** `.agents/skills/`. Se outra ferramenta de agente exigir caminho diferente (por exemplo `.claude/skills/`), esse caminho deve ser um link simbólico apontando para `.agents/skills/`, nunca uma cópia duplicada. Crie o link apenas quando `.agents/skills/` já tiver conteúdo.
+**Caminho canônico:** `.agents/skills/`. Se outra ferramenta de agente exigir caminho diferente (por exemplo `.claude/skills/`), ele aponta para `.agents/skills/` — nunca uma cópia duplicada. O mecanismo preferido é o link simbólico, criado só quando `.agents/skills/` já tiver conteúdo.
+
+**Onde o link simbólico não sobrevive** — Windows sem modo desenvolvedor, repositório clonado com `core.symlinks=false`, sistema de arquivos de rede — o link vira um arquivo de texto comum no clone de outra pessoa, e o efeito é uma cópia silenciosa e desatualizada. Nesses ambientes, a alternativa declarada é uma das duas: um `SKILL.md` de três linhas no caminho da ferramenta apontando para a Skill real em `.agents/skills/<nome>/`, ou a geração do caminho da ferramenta por script de configuração, a partir de `.agents/skills/`, com o caminho gerado no `.gitignore`. O que a regra exige é conteúdo único; o mecanismo é escolha do projeto e fica registrada no `AGENTS.md`.
 
 **Estrutura da pasta:**
 

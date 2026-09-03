@@ -12,11 +12,11 @@
 1. **Um par de arquivos por módulo**, com o mesmo nome do tipo. Todo símbolo público leva o prefixo do módulo, e o projeto escolhe uma convenção de caixa e a mantém.
 2. **`me` é o primeiro parâmetro**, sempre `<Tipo> *const me` — o ponteiro é constante, o objeto não. Nunca use `this`: é palavra reservada em C++ e quebra o dia em que o header for incluído de lá.
 3. **Os campos da estrutura são privados por convenção.** Só as operações do próprio módulo os tocam; nenhum chamador acessa `objeto.campo` diretamente. C não impõe isso — a revisão impõe.
-4. **Todo campo é documentado com unidade e faixa**, do mesmo modo que os parâmetros ([c-embarcado.md](../practices/c-embarcado.md), Seção 4).
+4. **Todo campo é documentado com unidade e faixa**, do mesmo modo que os parâmetros ([c-embarcado.md](../practices/c-embarcado.md), Seção *Estrutura, nomes e interface*).
 5. **O construtor valida e retorna erro.** `_init` verifica `me` e os parâmetros e devolve o tipo de erro do projeto; construtor `void` obriga o chamador a supor que deu certo.
-6. **O destrutor só existe se tiver o que fazer** — levar saída a estado seguro, liberar um recurso de hardware, cancelar um temporizador. Sem alocação dinâmica ([c-embarcado.md](../practices/c-embarcado.md), Seção 3), `_deinit` vazio é ruído: remova-o em vez de mantê-lo por simetria.
-7. **A guarda de inclusão não usa sublinhado duplo nem sublinhado seguido de maiúscula.** `__TEMPLATE__`, `_TEMPLATE` e similares são identificadores **reservados para a implementação** pelo padrão C: usá-los é comportamento indefinido, e é achado tanto de analisador estático quanto de MISRA. A forma correta é `TEMPLATE_H`.
-8. **Nada de `@version` nem `@date` no cabeçalho do arquivo.** Os dois envelhecem no primeiro commit que alguém esquece de atualizar, e a informação verdadeira já está no VCS e na identificação de build ([c-embarcado.md](../practices/c-embarcado.md), Seção 1). Cabeçalho registra o que não está no VCS: arquivo, responsabilidade e copyright.
+6. **O destrutor só existe se tiver o que fazer** — levar saída a estado seguro, liberar um recurso de hardware, cancelar um temporizador. Sem alocação dinâmica ([c-embarcado.md](../practices/c-embarcado.md), Seção *Memória e recursos*), `_deinit` vazio é ruído: remova-o em vez de mantê-lo por simetria.
+7. **A guarda de inclusão não usa sublinhado duplo nem sublinhado seguido de maiúscula** — `MODULO_H`, nunca `__MODULO__` ([c-embarcado.md](../practices/c-embarcado.md), Seção *Estrutura, nomes e interface*, regra 4).
+8. **Nada de `@version` nem `@date` no cabeçalho do arquivo.** Os dois envelhecem no primeiro commit que alguém esquece de atualizar, e a informação verdadeira já está no VCS e na identificação de build ([c-embarcado.md](../practices/c-embarcado.md), Seção *Toolchain, build e identificação*). Cabeçalho registra o que não está no VCS: arquivo, responsabilidade e copyright.
 9. **O header inclui só o que a interface precisa.** `stdint.h` e `stdbool.h` costumam ser necessários; o que só a implementação usa fica no `.c`.
 
 ## Esqueleto
@@ -158,7 +158,7 @@ typedef struct {
 **Duas regras de uso, e elas importam mais do que o mecanismo:**
 
 - **Só introduza a tabela virtual quando existirem duas implementações reais hoje.** Uma implementação atrás de despacho indireto é custo sem benefício, e "vai que um dia" não é evidência.
-- **Ponteiro para função tem preço em análise.** Ele quebra o grafo de chamadas estático, e com ele a análise automática de profundidade de pilha e a rastreabilidade de qual código roda em qual caminho — exatamente o que uma norma de safety vai querer ver ([firmware.md](../practices/firmware.md), Seção 8). Onde o polimorfismo for usado em código crítico, a tabela é `const`, o conjunto de implementações é fechado e conhecido em tempo de compilação, e o `vptr` é verificado contra nulo antes do primeiro despacho.
+- **Ponteiro para função tem preço em análise.** Ele quebra o grafo de chamadas estático, e com ele a análise automática de profundidade de pilha e a rastreabilidade de qual código roda em qual caminho — exatamente o que uma norma de safety vai querer ver ([firmware.md](../practices/firmware.md), Seção *Preparação para safety*). Onde o polimorfismo for usado em código crítico, a tabela é `const`, o conjunto de implementações é fechado e conhecido em tempo de compilação, e o `vptr` é verificado contra nulo antes do primeiro despacho.
 
 ## Exemplo preenchido (ilustrativo)
 

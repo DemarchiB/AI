@@ -1,0 +1,22 @@
+# Saídas de ferramenta e artefatos locais
+*.log
+*.tmp
+*.bak
+/out/
+/build/
+
+# Configuração local de máquina, editor e IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# Sistema operacional
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Ambiente e credenciais — nunca versionados
+.env
+.env.*
+*.pem
+*.key

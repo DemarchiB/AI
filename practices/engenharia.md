@@ -1,6 +1,6 @@
 # Domínio: engenharia e qualidade
 
-Cobre como uma mudança entra no repositório e como se verifica que ela está correta: branching e revisão, mensagens de commit, verificações automáticas e tratamento de segredos. Vale para qualquer contribuição, feita por pessoa ou por agente. O que é específico do trabalho com agentes está em [ia.md](ia.md).
+Cobre como uma mudança entra no repositório e como se verifica que ela está correta: branching e revisão, mensagens de commit, rastreabilidade, verificações automáticas, tratamento de segredos, e o processo de conduzir a mudança do início ao fim — inclusive quando ela mexe na estrutura, num submódulo ou num arquivo gerado. Vale para qualquer contribuição, feita por pessoa ou por agente. O que é específico do trabalho com agentes está em [ia.md](ia.md); o que é específico da documentação, em [../manutencao.md](../manutencao.md).
 
 **Leia este arquivo quando:** for iniciar, revisar ou integrar uma mudança; for preencher o `docs/workflow.md` do projeto; ou for decidir quais verificações rodar antes de concluir uma tarefa.
 
@@ -34,7 +34,7 @@ Enquanto o projeto não tiver uma plataforma de PR/MR efetivamente adotada, o Ce
 4. Revisão humana é obrigatória antes do merge, e o merge continua sendo uma ação humana.
 5. Vários trabalhos podem correr em paralelo, cada um com sua branch e seu PR/MR independentes.
 
-## 2. Convenções de branch e commit
+## 2. Convenções de branch e commit, e rastreabilidade
 
 Estas convenções existem para que o diff seja revisável e para fechar a rastreabilidade **spec → commit → revisão**, que sem elas termina dentro da spec.
 
@@ -44,6 +44,7 @@ Estas convenções existem para que o diff seja revisável e para fechar a rastr
 4. **Todo commit que implementa requisito cita o identificador** (`REQ-NNN`) e, quando houver, o ADR relacionado. O mesmo vale para a descrição do PR/MR.
 5. **Não misture assuntos no mesmo commit.** Reformatação em massa, renomeação de arquivos e mudança de comportamento vão em commits separados — misturá-los torna o diff irrevisável.
 6. **Histórico já compartilhado não é reescrito** sem combinação explícita entre quem trabalha nele.
+7. **Onde houver norma aplicável** (safety funcional, dispositivos médicos, aviônica), a rastreabilidade precisa ser **auditável**, e não apenas existir: o identificador do requisito aparece na spec, no commit, no teste e no registro de validação arquivado. É a mesma cadeia da regra 4, fechada nas duas pontas — e é barata enquanto está sendo escrita, cara quando alguém precisa reconstruí-la depois.
 
 ## 3. Sensores e validação automática
 
@@ -54,7 +55,7 @@ Conjunto mínimo, em ordem crescente de custo:
 1. **Build** do módulo afetado.
 2. **Teste direcionado** à mudança, ampliando para a suíte conforme o risco.
 3. **Lint / análise estática** na configuração do próprio projeto.
-4. **Verificação de links relativos** da documentação — o que impede que uma migração de caminho quebre referências em silêncio.
+4. **Verificação de links relativos** da documentação — o que impede que uma migração de caminho quebre referências em silêncio. O verificador precisa **ignorar blocos de código cercados**: templates contêm links que só resolvem no projeto que os usa, e um verificador ingênuo transforma isso em ruído até alguém desligá-lo.
 5. **Varredura de segredos** antes do commit.
 
 Regras de uso:
@@ -72,18 +73,41 @@ Regras de uso:
 4. Se um segredo chegou ao histórico, **rotacione o segredo**. Remover o arquivo num commit seguinte não desfaz a exposição: o valor continua no histórico e em toda cópia já clonada.
 5. Dado de produção (log real, dump, base de clientes) não entra no repositório nem em exemplo de documentação; use dado sintético.
 
-## 5. Testes e qualidade
+## 5. Testes, comandos e dependências
 
 Use testes existentes como mecanismo de validação, não como especificação absoluta. Execute primeiro os testes mais direcionados, amplie a validação conforme o risco, não declare cobertura que não foi medida, registre validações manuais quando forem o mecanismo real do projeto.
 
-## 6. Scripts, comandos e dependências
-
 Documente somente comandos existentes e verificáveis (configuração, build, testes, lint, geração, empacotamento, execução, implantação), registrando diretório de execução, pré-requisitos, parâmetros, arquivos produzidos, efeitos colaterais e modo de validação quando relevante. Não transforme comandos inferidos em instruções oficiais. Dependências novas devem ser necessárias, confiáveis e versionadas de forma compatível; nomes incomuns devem ser verificados para evitar pacotes maliciosos ou typosquatting. Nenhum comando documentado deve conter credencial embutida.
+
+## 6. Processo de uma mudança
+
+1. **Classificar**: objetivo e critérios de sucesso, arquivos/módulos/produtos afetados, risco, se há código gerado/submódulo/dependência externa, se muda comportamento/arquitetura/build ou só documentação, validações disponíveis.
+2. **Obter contexto proporcional**: inspecione a estrutura relevante, leia documentação e configurações aplicáveis, identifique linguagem/plataforma/toolchain, rastreie interfaces e dependências afetadas, verifique o estado do VCS inicial. Pare de investigar quando houver evidência suficiente.
+3. **Implementar**: mudanças mínimas e coesas, preserve estilo e abstrações existentes, evite refatorações não relacionadas, atualize referências e imports ao mover arquivos, não introduza dependências sem justificar necessidade, versão e impacto.
+4. **Validar**: rode os sensores existentes, do mais específico ao mais amplo — teste direcionado, build do módulo, build do produto; para mudança apenas documental, inspeção do diff e verificação de links. Se uma validação não puder ser executada, registre o motivo e a verificação pendente.
+5. **Encerrar**: liste arquivos criados, modificados, movidos e removidos; resuma mudanças de comportamento ou estrutura; informe validações executadas e limitações; confirme que submódulos e áreas fora do escopo não foram alterados.
+
+## 7. Modificações estruturais
+
+Antes de mover ou dividir componentes: identifique responsabilidade e proprietário lógico de cada área, mapeie dependências de entrada e saída, localize imports, scripts, configurações, pipelines e documentação afetados, verifique caminhos codificados e ferramentas que dependem da estrutura atual, preserve compatibilidade ou defina uma migração explícita, e atualize o `ARCHITECTURE.md` se limites ou responsabilidades mudarem.
+
+Evite: mover arquivos sem atualizar consumidores; criar camadas sem responsabilidade própria; duplicar utilitários; misturar infraestrutura, domínio e integração sem necessidade; reorganizar código apenas para acomodar uma IA ou uma IDE.
+
+## 8. Submódulos e projetos externos
+
+Trate todo submódulo (ou equivalente do VCS em uso) como projeto externo e independente por padrão: identifique-os pela configuração de submódulos do VCS, não altere código, configuração ou documentação dentro deles, não crie `AGENTS.md`, `ARCHITECTURE.md` ou Skills dentro deles, não assuma permissão para enviar alterações, documente apenas a interface e a dependência observáveis pelo projeto principal. Só modifique um submódulo quando isso for solicitado explicitamente, tratando a mudança como trabalho separado.
+
+## 9. Arquivos gerados
+
+Antes de editar um arquivo, determine se ele é gerado (cabeçalhos indicando geração, templates, scripts de exportação, diretórios de saída, regras de build). Quando houver gerador: altere a fonte ou o template correto, execute o processo oficial, revise todas as saídas — inclusive as remoções — e valide os consumidores afetados. Não simule manualmente a saída de um gerador indisponível sem autorização; registre a limitação.
 
 ## Checklist deste domínio
 
 - [ ] A mudança rodou em branch separada, a partir de um base declarado.
-- [ ] Commits seguem a Seção 2 e citam requisito ou ADR quando aplicável.
+- [ ] Commits seguem a Seção *Convenções de branch e commit* e citam requisito ou ADR quando aplicável.
 - [ ] Os sensores existentes foram executados; os ausentes, registrados como pendência.
 - [ ] Nenhum segredo, credencial ou dado de produção entrou no diff ou na documentação.
 - [ ] Nenhum comando inferido foi documentado como oficial.
+- [ ] O encerramento listou arquivos alterados, validações executadas e limitações.
+- [ ] Nenhum submódulo foi alterado sem solicitação explícita.
+- [ ] Arquivo gerado foi alterado pela fonte, nunca à mão.

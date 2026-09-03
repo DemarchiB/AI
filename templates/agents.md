@@ -8,7 +8,7 @@
 
 **Pastas que o agente não deve abrir** — saídas de build, artefatos gerados, binários arquivados — se resolvem primeiro no `.gitignore` e no arquivo de exclusão do harness, quando houver. Listá-las aqui é o último recurso, não o primeiro: documentar "não leia isto" gasta contexto para evitar contexto.
 
-**Convenções:** somente comandos verificados; comando inferido entra com marcação de estado provisório, nunca como oficial. É neste arquivo que fica registrada a versão adotada do conjunto de convenções.
+**Convenções:** somente comandos verificados; comando inferido entra com marcação de estado provisório, nunca como oficial. É neste arquivo que fica registrada a versão adotada do conjunto de convenções — e é dele que os arquivos de contexto de outras ferramentas de IA (`CLAUDE.md`, `.cursorrules`, `copilot-instructions.md`) devem ser apenas um ponteiro de três linhas, nunca uma cópia ([practices/ia.md](../practices/ia.md), Seção *Arquivos de contexto de cada ferramenta*).
 
 ```markdown
 # AGENTS.md
@@ -71,7 +71,7 @@ principal. Uma contribuição está completa quando o comportamento novo tem
 spec, teste passando e nenhum aumento de uso de RAM no módulo.
 
 ## Convenções adotadas
-Este projeto segue [docs/guide/PROJECT_GUIDE.md](docs/guide/PROJECT_GUIDE.md), **versão 3.0**.
+Este projeto segue [docs/guide/PROJECT_GUIDE.md](docs/guide/PROJECT_GUIDE.md), **versão <X.Y>**.
 
 ## Mapa do repositório
 | Caminho | Conteúdo |

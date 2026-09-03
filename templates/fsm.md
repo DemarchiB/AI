@@ -9,7 +9,7 @@
 
 **Quando não documentar:** máquina local e trivial, com dois estados e uma transição, cujo enum já é autoexplicativo no código.
 
-**Convenções:** um arquivo por máquina; o nome do arquivo, os nomes dos estados e os nomes dos eventos são **os mesmos identificadores usados no código**, sem tradução nem sinônimo — é isso que torna a documentação verificável contra a implementação. A tabela de transição é a fonte da verdade do documento: se o código e a tabela divergirem, um dos dois é defeito, e a divergência não se resolve apagando a linha da tabela. Documento e código mudam na mesma alteração ([firmware.md](../practices/firmware.md), Seção 2).
+**Convenções:** um arquivo por máquina; o nome do arquivo, os nomes dos estados e os nomes dos eventos são **os mesmos identificadores usados no código**, sem tradução nem sinônimo — é isso que torna a documentação verificável contra a implementação. A tabela de transição é a fonte da verdade do documento: se o código e a tabela divergirem, um dos dois é defeito, e a divergência não se resolve apagando a linha da tabela. Documento e código mudam na mesma alteração ([firmware.md](../practices/firmware.md), Seção *Máquinas de estado*).
 
 ```markdown
 # FSM: <nome>
