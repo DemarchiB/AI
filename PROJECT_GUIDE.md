@@ -1,8 +1,8 @@
 # Guia de projeto — índice das convenções
 
-**Versão 4.0 — 2026-09-03.** O que mudou em cada versão está em [CHANGELOG.md](CHANGELOG.md).
+Este arquivo é o índice de um **conjunto** de documentos de convenção, adotado sem alteração por cada projeto. São duas formas equivalentes de adotá-lo, ambas montando o conjunto em `docs/guide/`: **cópia** do diretório, ou **submódulo** do repositório do conjunto. Os caminhos internos são relativos ao próprio conjunto, então os dois funcionam sem editar nada.
 
-Este arquivo é o índice de um **conjunto** de documentos de convenção, adotado sem alteração por cada projeto. São duas formas equivalentes de adotá-lo, ambas montando o conjunto em `docs/guide/`: **cópia** do diretório, ou **submódulo** do repositório do conjunto. Os caminhos internos são relativos ao próprio conjunto, então os dois funcionam sem editar nada. O submódulo fixa a versão pelo commit; a cópia a declara em `AGENTS.md`, e em ambos os casos o projeto registra ali a versão adotada. A versão é única para o conjunto inteiro — versionar arquivo a arquivo cria combinações incompatíveis. Como a versão evolui e quem a incrementa está em [manutencao-do-conjunto.md](manutencao-do-conjunto.md).
+O conjunto é adotado e propagado **inteiro**, nunca arquivo a arquivo: combinação parcial produz ponteiro apontando para seção que não existe mais. Não há número de versão nem changelog — o VCS identifica o estado adotado (o commit fixado, no submódulo; o commit de origem registrado no `AGENTS.md`, na cópia) e mostra o que mudou desde ele. **Quando um arquivo do conjunto mudar, todo projeto que o adotou reavalia**: lê o diff, decide se atualiza e registra a decisão. Como isso se faz na prática está em [manutencao-do-conjunto.md](manutencao-do-conjunto.md).
 
 ## 1. Finalidade
 
@@ -36,7 +36,7 @@ Leia este índice sempre; leia o resto sob demanda. Ler o conjunto inteiro nunca
 | delegar trabalho a um agente, ou definir o que ele pode executar | `practices/ia.md` |
 | criar, mover ou remover documentos; documentar a partir de evidência | `manutencao.md` |
 | decidir onde registrar uma informação | este arquivo, Seção *Onde registrar uma informação* |
-| **alterar o próprio conjunto** — criar um domínio, mover um trecho, incrementar a versão | `manutencao-do-conjunto.md` |
+| **alterar o próprio conjunto** — criar um domínio, mover um trecho, propagar uma mudança | `manutencao-do-conjunto.md` |
 
 ## 3. Regras invioláveis
 

@@ -11,7 +11,7 @@ Cobre como um projeto passa a usar este conjunto: quais documentos existem desde
 1. este conjunto em `docs/guide/`, copiado ou adicionado como submódulo — antes de qualquer documento, porque define o formato dos demais;
 2. `ARCHITECTURE.md` — mesmo esquelético; dá vocabulário a tudo que vem depois. O que não estiver decidido vai em "Pontos não determinados", não em suposição. Descrever estrutura que ainda não existe é legítimo desde que rotulada como planejada;
 3. `docs/workflow.md` — VCS, remoto, branch principal e branches de integração;
-4. `AGENTS.md` — por último entre os obrigatórios: índice só se escreve bem sobre o que já existe. É onde a versão adotada do conjunto fica registrada;
+4. `AGENTS.md` — por último entre os obrigatórios: índice só se escreve bem sobre o que já existe. É onde fica registrado qual estado do conjunto o projeto adotou;
 5. `README.md` — a apresentação para pessoas.
 
 Nessa ordem, toda referência entre documentos aponta para trás. Se um documento novo precisar citar outro que ainda não existe, ou a ordem está errada, ou a citação é desnecessária.

@@ -1,6 +1,6 @@
 # Template: `README.md`
 
-**Quando usar:** no dia zero de qualquer projeto. É um dos cinco arquivos obrigatórios.
+**Quando usar:** no dia zero de qualquer projeto. É um dos quatro documentos obrigatórios.
 
 **Papel:** apresentar o projeto a pessoas e ferramentas pela primeira vez — propósito, pré-requisitos, caminho inicial de uso, links para a documentação detalhada. Não é inventário arquitetural.
 

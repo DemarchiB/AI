@@ -50,7 +50,7 @@ Ao revisar: remova fatos obsoletos, preserve conteúdo ainda correto, substitua 
 
 ## 6. Checklist de mudança documental
 
-- [ ] `AGENTS.md` continua curto, funciona como índice e registra a versão adotada do conjunto.
+- [ ] `AGENTS.md` continua curto, funciona como índice e registra qual estado do conjunto o projeto adotou.
 - [ ] `ARCHITECTURE.md` permanece de alto nível e continua único no projeto.
 - [ ] Documentos criados partiram do template correspondente, ou pertencem a uma área sem template e cumprem o mínimo da Seção *Áreas sem template*.
 - [ ] Não existe arquivo `TEMPLATE.md` (ou equivalente) duplicando um template do conjunto.

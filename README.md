@@ -22,9 +22,11 @@ Monte o conjunto em `docs/guide/` de uma das duas formas — os caminhos interno
 as duas funcionam sem editar nada:
 
 ```
-# como cópia (a versão adotada é declarada no AGENTS.md do projeto)
-# como submódulo (a versão adotada é o commit fixado)
+# como submódulo: o commit fixado é o estado adotado
 git submodule add https://github.com/DemarchiB/AI.git docs/guide
+
+# como cópia: registre no AGENTS.md do projeto o commit de origem
+git -C <clone-do-conjunto> rev-parse --short HEAD
 ```
 
 Depois siga [`adocao.md`](adocao.md): quatro documentos obrigatórios, nesta ordem —
@@ -36,16 +38,20 @@ Depois siga [`adocao.md`](adocao.md): quatro documentos obrigatórios, nesta ord
 PROJECT_GUIDE.md            índice: onde cada informação mora, e o que ler para cada tarefa
 adocao.md                   como um projeto adota o conjunto
 manutencao.md               como o projeto mantém sua documentação
-manutencao-do-conjunto.md   como este conjunto evolui (domínios, orçamento, versão)
+manutencao-do-conjunto.md   como este conjunto evolui (propagação, domínios, orçamento)
 practices/                  um arquivo por domínio: engenharia, ia, c-embarcado, firmware
 templates/                  um arquivo por documento: o formato de cada um
-CHANGELOG.md                o que mudou em cada versão
 ```
 
-## Versão
+## Estado adotado
 
-A versão é única para o conjunto inteiro, declarada no topo de `PROJECT_GUIDE.md` e marcada com
-tag no VCS. Um projeto que adotou por cópia registra em seu `AGENTS.md` a versão que copiou e
-consulta o [`CHANGELOG.md`](CHANGELOG.md) para decidir se atualiza.
+Não há número de versão nem changelog: o conjunto é identificado pelo commit. Um projeto que adota
+por **submódulo** tem o estado fixado no `.gitmodules`; um projeto que adota por **cópia** registra
+o commit de origem numa linha do seu `AGENTS.md`. Para saber o que mudou desde então,
+`git diff <estado adotado>..main` aqui neste repositório.
+
+Quando um arquivo daqui muda, os projetos que adotaram **reavaliam** — leem o diff e decidem se
+atualizam. Commits que mudam o sentido de uma regra declaram, no corpo, o que quem já adotou
+precisa fazer.
 
 O conteúdo é escrito em português. Uso interno.

@@ -1,6 +1,6 @@
 # Template: `AGENTS.md`
 
-**Quando usar:** no dia zero, por último entre os cinco obrigatórios — índice só se escreve bem sobre o que já existe.
+**Quando usar:** no dia zero, por último entre os quatro documentos obrigatórios — índice só se escreve bem sobre o que já existe.
 
 **Papel:** índice operacional curto, carregado em toda sessão de agente. Alvo de ~100 linhas. Detalhe extenso vive em `ARCHITECTURE.md`, em `docs/`, nas Skills, no código ou nas configurações — aqui fica o resumo e o ponteiro.
 
@@ -8,7 +8,7 @@
 
 **Pastas que o agente não deve abrir** — saídas de build, artefatos gerados, binários arquivados — se resolvem primeiro no `.gitignore` e no arquivo de exclusão do harness, quando houver. Listá-las aqui é o último recurso, não o primeiro: documentar "não leia isto" gasta contexto para evitar contexto.
 
-**Convenções:** somente comandos verificados; comando inferido entra com marcação de estado provisório, nunca como oficial. É neste arquivo que fica registrada a versão adotada do conjunto de convenções — e é dele que os arquivos de contexto de outras ferramentas de IA (`CLAUDE.md`, `.cursorrules`, `copilot-instructions.md`) devem ser apenas um ponteiro de três linhas, nunca uma cópia ([practices/ia.md](../practices/ia.md), Seção *Arquivos de contexto de cada ferramenta*).
+**Convenções:** somente comandos verificados; comando inferido entra com marcação de estado provisório, nunca como oficial. É neste arquivo que fica registrado qual estado do conjunto de convenções o projeto adotou — e é dele que os arquivos de contexto de outras ferramentas de IA (`CLAUDE.md`, `.cursorrules`, `copilot-instructions.md`) devem ser apenas um ponteiro de três linhas, nunca uma cópia ([practices/ia.md](../practices/ia.md), Seção *Arquivos de contexto de cada ferramenta*).
 
 ```markdown
 # AGENTS.md
@@ -17,7 +17,9 @@
 <2-3 linhas: o que o projeto faz e qual o resultado esperado de uma contribuição.>
 
 ## Convenções adotadas
-Este projeto segue [docs/guide/PROJECT_GUIDE.md](docs/guide/PROJECT_GUIDE.md), **versão <X.Y>**.
+Este projeto segue [docs/guide/PROJECT_GUIDE.md](docs/guide/PROJECT_GUIDE.md).
+Adotado como <cópia | submódulo>; estado adotado: `<commit curto do conjunto>`.
+<Se houve reavaliação sem atualizar: por que se manteve nesse estado.>
 
 ## Mapa do repositório
 | Caminho | Conteúdo |
@@ -71,7 +73,8 @@ principal. Uma contribuição está completa quando o comportamento novo tem
 spec, teste passando e nenhum aumento de uso de RAM no módulo.
 
 ## Convenções adotadas
-Este projeto segue [docs/guide/PROJECT_GUIDE.md](docs/guide/PROJECT_GUIDE.md), **versão <X.Y>**.
+Este projeto segue [docs/guide/PROJECT_GUIDE.md](docs/guide/PROJECT_GUIDE.md).
+Adotado como submódulo; estado adotado: `a1b2c3d` (o commit fixado em `.gitmodules`).
 
 ## Mapa do repositório
 | Caminho | Conteúdo |
