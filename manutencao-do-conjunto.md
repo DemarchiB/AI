@@ -1,17 +1,22 @@
 # Manutenção do próprio conjunto
 
-Cobre o que só quem **edita este conjunto** precisa saber: quando um domínio novo se justifica, para onde vai um trecho que não cabe mais onde está, quanto cada arquivo pode pesar, e como a versão evolui. Nada aqui é lido para trabalhar num projeto — é por isso que este conteúdo saiu do índice, que é pago em toda tarefa de todo projeto.
+Cobre o que só quem **edita este conjunto** precisa saber: como uma alteração chega aos projetos que já adotaram, quando um domínio novo se justifica, para onde vai um trecho que não cabe mais onde está, e quanto cada arquivo pode pesar. Nada aqui é lido para trabalhar num projeto — é por isso que este conteúdo saiu do índice, que é pago em toda tarefa de todo projeto.
 
-**Leia este arquivo quando:** for criar, dividir ou remover um domínio; mover um trecho de um arquivo do conjunto para outro; ou incrementar a versão.
+**Leia este arquivo quando:** for criar, dividir ou remover um domínio; mover um trecho de um arquivo do conjunto para outro; ou propagar uma mudança aos projetos que já adotaram.
 
-## 1. Versão e histórico
+## 1. Identificação e propagação
 
-A versão é única para o conjunto inteiro e vive no topo de `PROJECT_GUIDE.md`. Quando qualquer arquivo evoluir, incremente lá e propague o conjunto completo — versionar arquivo a arquivo cria combinações incompatíveis.
+Não há número de versão nem changelog neste conjunto. O VCS responde melhor, e de graça, as duas perguntas que eles responderiam:
 
-- **Incremento maior** quando uma regra muda de sentido, um caminho canônico muda ou a organização dos arquivos muda.
-- **Incremento menor** quando algo é acrescentado sem invalidar o que já era seguido.
+- **Que estado do conjunto este projeto adotou?** No submódulo, o commit fixado. Na cópia, o commit de origem, registrado numa linha do `AGENTS.md` do projeto — `git rev-parse --short HEAD` no clone do conjunto, no momento em que a cópia foi feita.
+- **O que mudou desde então?** `git diff <estado adotado>..main` no repositório do conjunto. Na cópia, esse mesmo diff; e comparar a pasta `docs/guide/` com o conjunto no commit adotado mostra de quebra se alguém editou a cópia, o que a regra proíbe.
 
-Toda alteração de versão registra uma linha em `CHANGELOG.md` e ganha uma tag no VCS (`v4.0`). Isso não é formalidade: um projeto que adotou o conjunto por **cópia** declara em `AGENTS.md` a versão que copiou, e sem changelog e sem tag ele não tem como descobrir o que mudou desde então — a decisão de atualizar fica sem base. Com submódulo o commit já responde isso; com cópia, só o changelog responde.
+Um número de versão só carregaria informação se fosse decidido com cuidado a cada alteração e nunca esquecido. Na prática ele vira decoração que discorda do repositório — e um rótulo em que ninguém confia é pior do que rótulo nenhum, porque ainda custa a manutenção. Duas obrigações o substituem, e as duas são baratas porque acontecem no momento em que a informação existe:
+
+1. **O corpo do commit declara o impacto para quem já adotou** sempre que uma regra mudar de sentido, um caminho canônico mudar ou a organização dos arquivos mudar. Uma linha — "quem já adotou precisa: …" — escrita onde não tem como divergir do diff que a acompanha. Alteração que não obriga ninguém a nada não gera linha nenhuma.
+2. **O conjunto é propagado inteiro**, nunca arquivo a arquivo: atualizar metade produz combinação que ninguém validou.
+
+**Quando um arquivo do conjunto muda, os projetos que o adotaram reavaliam — não necessariamente atualizam.** Reavaliar é ler o diff e decidir. Ficar no estado atual é decisão legítima, e ela fica registrada no `AGENTS.md` do projeto ao lado do commit adotado; o que não é legítimo é o projeto não saber em que estado está.
 
 ## 2. Antes de criar um domínio, descarte três alternativas
 
@@ -30,7 +35,7 @@ Só o que sobrevive aos três é domínio. O mesmo teste vale para um template n
 3. **Templates novos** vão para `templates/`, um por documento, e entram no catálogo da Seção *Estrutura de arquivos do projeto* e na lista da Seção *Onde registrar uma informação* do índice.
 4. **Regra pertence a um domínio só.** Se parecer caso particular de regra existente em outro domínio, refine a existente em vez de duplicar.
 5. **Não crie o arquivo vazio.** Domínio só nasce quando há regras reais a escrever.
-6. **Incremente a versão** e registre o changelog (Seção *Versão e histórico*).
+6. **Declare o impacto no corpo do commit** se alguma regra mudou de sentido (Seção *Identificação e propagação*).
 
 ## 4. Orçamento de contexto
 
@@ -55,4 +60,4 @@ Meça com `wc -m`, não em linhas: linha longa e linha curta pesam diferente, e 
 - [ ] O índice continua abaixo do teto e cada domínio tocado continua abaixo do gatilho (`wc -m`).
 - [ ] Referências cruzadas citam o arquivo e o **título** da seção, nunca só o número.
 - [ ] Documento ou domínio novo entrou na árvore, no catálogo e na tabela "Como usar" do índice.
-- [ ] A versão foi incrementada, o `CHANGELOG.md` tem a linha correspondente e a tag foi criada.
+- [ ] Mudança de sentido de regra, de caminho canônico ou de organização tem o impacto declarado no corpo do commit.

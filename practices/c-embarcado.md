@@ -27,6 +27,7 @@ Comandos e flags aparecem na notação do GCC e do CMake como ilustração. O co
 6. **`const` é o padrão**, não a exceção: parâmetro de ponteiro que não modifica é `const`, tabela imutável é `const` (fica em flash, não em RAM).
 7. **Enum para conjunto fechado de valores**, com todos os casos tratados no `switch` — sem `default` que mascare um caso novo esquecido. Onde houver `default`, ele leva ao estado de erro, não ao silêncio.
 8. **Precedência explícita por parênteses** em expressão composta, mesmo quando a linguagem já garantiria o resultado.
+9. **Tamanho usa `size_t`, endereço usa `uintptr_t`.** Não use `int` para tamanho nem aritmética de ponteiro para representar um endereço absoluto — a largura de ambos varia entre plataformas, e `size_t`/`uintptr_t` são os tipos que o padrão garante caber o alvo real.
 
 ## 3. Memória e recursos
 
@@ -44,18 +45,20 @@ Comandos e flags aparecem na notação do GCC e do CMake como ilustração. O co
 3. **A unidade faz parte do nome** sempre que a grandeza tiver uma: `timeout_ms`, `corrente_ma`, `tensao_mv`, `angulo_decigrau`. Elimina uma classe inteira de defeito que nenhum analisador estático detecta, e custa nada.
 4. **Identificador reservado não se usa.** Nome começando com sublinhado duplo, ou com sublinhado seguido de maiúscula, é reservado para a implementação em qualquer escopo — inclusive guarda de inclusão, onde o erro é mais comum. `__MODULO__` é comportamento indefinido; a forma correta é `MODULO_H`.
 5. **O header expõe a interface, nunca a implementação**: sem definição de variável, sem corpo de função não `inline`, sem `#include` que só a implementação precisa. Guarda de inclusão em todo header.
-6. **Cada função pública tem contrato declarado no header**: o que ela faz, pré-condições, faixa válida de cada parâmetro com a unidade, e o significado de cada valor de retorno de erro. É o contrato que torna verificável, na revisão, a regra de validação da Seção *Defensividade* — e é o material que uma norma de safety vai exigir depois, escrito no momento em que custa pouco.
+6. **Cada função pública tem contrato declarado no header**: o que ela faz, pré-condições, faixa válida de cada parâmetro com a unidade, aceitação ou não de ponteiro nulo, posse e tempo de vida de todo ponteiro recebido ou retornado, o contexto de execução permitido (tarefa, ciclo ou interrupção), e o significado de cada valor de retorno de erro. É o contrato que torna verificável, na revisão, a regra de validação da Seção *Defensividade* — e é o material que uma norma de safety vai exigir depois, escrito no momento em que custa pouco.
 7. **Sem número mágico.** Valor com significado é `const`, `enum` ou máscara nomeada; registrador é acessado por campos e máscaras com nome, não por literal hexadecimal no meio da expressão.
 8. **Função tem uma responsabilidade e cabe na tela.** Função que precisa de comentário de seção interna normalmente são duas funções.
 9. **Toda função tem protótipo** e o parâmetro vazio se escreve `(void)`.
 10. **Macro só onde função não serve.** Constante é `const` ou `enum`; cálculo é função (`static inline` quando o custo importar). Macro que sobrar é parametrizada com parênteses em cada uso do argumento e sem efeito colateral no argumento.
 11. **Sem `goto`**, exceto o salto único para um bloco de limpeza ao fim da própria função.
 12. **Código morto não fica no repositório.** Alternativa antiga vive no histórico do VCS, não comentada nem sob `#if 0`.
+13. **Um arquivo inclui primeiro o próprio header, depois os headers internos do projeto, por último a biblioteca padrão** — a ordem expõe cedo uma dependência ausente no próprio header. Caminho de include parte da raiz de includes do projeto, nunca com `../`; um header inclui diretamente todo tipo de que depende, em vez de contar com a ordem de inclusão de quem o usa.
+14. **Decisão de hardware, contorno (workaround) ou risco de segurança fica comentado no local**, com o motivo — não a implementação, que o código já mostra. Comentário que descreve uma decisão superada é removido na mesma mudança que a supera.
 
 ## 5. Defensividade e comportamento indefinido
 
 1. **Toda função pública valida o que vem de fora do módulo**: ponteiro nulo, índice fora de faixa, valor de enum inválido, tamanho incoerente.
-2. **Retorno de erro é verificado ou explicitamente descartado** com comentário do motivo. Função que pode falhar retorna estado de erro; não sinaliza falha por valor mágico dentro da faixa útil.
+2. **Retorno de erro é verificado ou explicitamente descartado** com comentário do motivo. Função que pode falhar retorna estado de erro; não sinaliza falha por valor mágico dentro da faixa útil, nem mistura no mesmo retorno status permanente, quantidade processada e código de erro. A causa da falha é propagada ou convertida explicitamente para quem chama, nunca descartada em silêncio.
 3. **Erro tem um tipo próprio** (enum de resultado) usado por todo o projeto, em vez de cada módulo inventar sua convenção.
 4. **Suposição sobre o alvo vira verificação de compilação.** Tamanho de estrutura persistida ou trafegada, largura de tipo, potência de dois de um buffer circular, coerência entre um enum e o tamanho de uma tabela: tudo isso se afirma com asserção estática (`_Static_assert`, ou macro equivalente em C99). Falha em tempo de compilação custa segundos; a mesma suposição quebrada em campo custa uma visita.
 5. **`assert` de execução é para invariante de programação**, verificada em desenvolvimento; nunca para validar entrada externa, que é sempre tratada em produção.
@@ -82,6 +85,7 @@ Ao conjunto mínimo de sensores de [engenharia.md](engenharia.md), este domínio
 3. **Orçamento de memória** verificado a cada build (Seção *Toolchain, build e identificação*, regra 6).
 4. **Complexidade limitada por sensor**, onde houver ferramenta: função acima do limite declarado falha o build ou entra na lista de dívida. Complexidade alta não é defeito, mas é o melhor indicador barato de onde os defeitos vão aparecer — tipicamente uma máquina de estado implícita pedindo para virar explícita ([firmware.md](firmware.md), Seção *Máquinas de estado*).
 5. **Teste em host é sensor, não luxo.** A lógica independente de hardware compila e roda no PC; onde ainda não houver suíte, isso é registrado como verificação pendente — nunca declarado como coberto por teste manual em bancada. O que o torna possível é a separação de camadas ([firmware.md](firmware.md), Seção *Camadas e portabilidade*).
+6. **Teste em host isola casos por caminho nominal, limite e falha**, usa fake/stub/mock só nas fronteiras que o exigem, e verifica o efeito colateral esperado — não apenas o valor de retorno. Onde o teste compila um header C a partir de um executor em C++, o header cobre a própria inclusão a partir dos dois lados (`extern "C"` sob `#ifdef __cplusplus`), em vez de depender de quem o inclui fazer essa adaptação.
 
 **Ordem de adoção num projeto sem nada:** warnings do compilador → analisador aberto na configuração padrão → conjunto de regras normativo → conformidade completa. Pular etapa produz milhares de achados e abandono da ferramenta.
 
@@ -92,6 +96,13 @@ Ao conjunto mínimo de sensores de [engenharia.md](engenharia.md), este domínio
 - **A linha de base é indexada por arquivo e regra, nunca por número de linha.** Congelar `driver.c:412` faz com que qualquer inserção acima reabra o achado antigo e mascare o novo; em uma semana o sensor vira ruído e é desligado.
 - **A dívida é medida e encolhe.** O tamanho atual da linha de base — e a lista de alvos ainda sem `-Werror` — é registrado no projeto e revisitado; catraca sem número não é catraca, é adiamento.
 - **Achado suprimido tem justificativa no próprio local** e, quando for desvio de regra adotada, o registro da Seção *Adoção do MISRA*.
+
+## 8. Compilação condicional
+
+1. **Toda opção de compilação vale `0` ou `1`**, testada com `#if (OPCAO == 1)` — nunca `#ifdef` isolado para uma opção que também precisa poder estar explicitamente desligada, porque `#ifdef` não distingue "desligada" de "nunca definida".
+2. **Macros de seleção de variante ou produto são mutuamente exclusivas.** Definir mais de uma no mesmo build é erro de configuração; rejeite a combinação por asserção estática quando a linguagem permitir, ou por checagem no próprio script de build.
+3. **O `#if` fica perto do código ou do `#include` que ele condiciona.** Condicional distante do trecho que afeta obriga quem revisa a procurar o efeito em outro lugar do arquivo.
+4. **Toda alteração num trecho condicional revisa os dois ramos** — o incluído e o excluído — em cada opção ou variante que ele afeta. Revisar só o ramo que o build atual usa deixa o outro silenciosamente quebrado até a próxima vez que for compilado.
 
 ## Checklist deste domínio
 
@@ -104,3 +115,4 @@ Ao conjunto mínimo de sensores de [engenharia.md](engenharia.md), este domínio
 - [ ] Nenhum código morto, comentado ou sob `#if 0` entrou no diff.
 - [ ] Desvio de regra adotada tem registro com motivo, risco e aprovação.
 - [ ] Os sensores da linguagem rodaram; o analisador não acusa achado fora da linha de base.
+- [ ] Toda condicional de compilação alterada teve os dois ramos revisados, e nenhuma macro de variante foi combinada com outra incompatível.

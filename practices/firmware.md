@@ -33,6 +33,9 @@ Cobre como o firmware é estruturado e como ele se comporta no tempo: separaçã
 5. **Comunicação com o contexto principal por mecanismo declarado**: sinalizador, fila circular de produtor/consumidor único, ou primitiva do RTOS específica para interrupção. Estrutura genérica compartilhada sem proteção é defeito.
 6. **Prioridades de interrupção são atribuídas explicitamente e documentadas**, com o efeito de aninhamento considerado. Prioridade herdada do default da ferramenta não é escolha.
 7. **Toda condição de erro do periférico é tratada** — estouro, ruído, quadro inválido —, não apenas o caminho feliz.
+8. **O tempo de execução de toda rotina de interrupção é conhecido e compatível com o período do que ela atende** — não só o tempo da seção crítica dentro dela, mas o tempo da rotina inteira, do início ao retorno.
+9. **Barreira de memória ou de compilador só entra com justificativa explícita no local**: qual reordenação ela impede, e por que essa reordenação seria um problema ali. Barreira colocada por precaução, sem essa justificativa, é tão perigosa quanto a ausência dela — esconde uma suposição não verificada.
+10. **Buffer usado por DMA, em alvo com cache de dados, exige alinhamento, seção de memória dedicada e manutenção explícita de cache antes e depois da transferência.** `volatile` não garante coerência de cache — é a mesma distinção da Seção *Defensividade e comportamento indefinido* de [c-embarcado.md](c-embarcado.md): `volatile` marca o que muda fora do fluxo do programa, não sincroniza nem mantém coerência.
 
 ## 4. Laço principal e RTOS
 
@@ -95,3 +98,4 @@ Enquanto o projeto não adotar uma norma, este guia permanece agnóstico a ela: 
 - [ ] A causa do último reset é lida e a integridade da imagem é verificada na partida.
 - [ ] Dado externo é validado antes de usado; área persistida tem versão e verificação de integridade.
 - [ ] Atualização de firmware verifica a imagem antes de ativá-la e é atômica contra queda de energia.
+- [ ] O tempo de execução de cada rotina de interrupção é conhecido; barreira de memória e buffer de DMA têm justificativa e manutenção de cache declaradas quando aplicável.
